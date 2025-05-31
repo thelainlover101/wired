@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lain Chatbot</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Talk to Lain</h1>
+  <div id="chatbox"></div>
+  <input type="text" id="input" placeholder="Say something..." />
+  <button onclick="sendMessage()">Send</button>
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("input");
+      const message = input.value;
+      const response = "Lain is listening...";
+      const chat = document.getElementById("chatbox");
+      chat.innerHTML += `<p><strong>You:</strong> ${message}</p><p><strong>Lain:</strong> ${response}</p>`;
+      input.value = "";
+    }
+  </script>
+</body>
+</html>

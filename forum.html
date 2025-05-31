@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lain Forum</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Lain Forum</h1>
+  <form id="postForm">
+    <input type="text" id="username" placeholder="Username" required />
+    <input type="text" id="title" placeholder="Title" required />
+    <textarea id="content" placeholder="Write your post..." required></textarea>
+    <button type="submit">Post</button>
+  </form>
+  <div id="posts"></div>
+  <script>
+    const bannedWords = ["badword1", "badword2"];
+    document.getElementById("postForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const user = document.getElementById("username").value;
+      const title = document.getElementById("title").value;
+      const content = document.getElementById("content").value;
+      const clean = bannedWords.every(w => !content.includes(w));
+      if (!clean) return alert("Inappropriate content.");
+      const post = document.createElement("div");
+      post.innerHTML = `<strong>${user}</strong>: <h3>${title}</h3><p>${content}</p>`;
+      document.getElementById("posts").appendChild(post);
+    });
+  </script>
+</body>
+</html>
