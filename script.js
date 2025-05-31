@@ -1,1 +1,1 @@
-// Add wired-style transitions or glitch logic here
+// Placeholder for transitions, glitch effects, etc.

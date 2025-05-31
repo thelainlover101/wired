@@ -3,21 +3,47 @@
 <head>
   <title>Lain Chatbot</title>
   <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <h1>Talk to Lain</h1>
-  <div id="chatbox"></div>
-  <input type="text" id="input" placeholder="Say something..." />
-  <button onclick="sendMessage()">Send</button>
   <script>
-    function sendMessage() {
+    async function sendMessage() {
       const input = document.getElementById("input");
-      const message = input.value;
-      const response = "Lain is listening...";
       const chat = document.getElementById("chatbox");
-      chat.innerHTML += `<p><strong>You:</strong> ${message}</p><p><strong>Lain:</strong> ${response}</p>`;
+      const userMsg = input.value;
+      chat.innerHTML += `<p><strong>You:</strong> ${userMsg}</p>`;
       input.value = "";
+      try {
+        const res = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer sk-proj-XXXXXXXXXXXXXXXXXXXXXXXXXXX' // Replace safely in local env
+          },
+          body: JSON.stringify({
+            model: "gpt-4",
+            messages: [{ role: "system", content: "You are Lain from Serial Experiments Lain." },
+                       { role: "user", content: userMsg }]
+          })
+        });
+        const data = await res.json();
+        const reply = data.choices[0].message.content;
+        chat.innerHTML += `<p><strong>Lain:</strong> ${reply}</p>`;
+      } catch {
+        chat.innerHTML += `<p><strong>Lain:</strong> Something went wrong...</p>`;
+      }
     }
   </script>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="forum.html">Forum</a></li>
+      <li><a href="chat.html">Chatbot</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="socials.html">Socials</a></li>
+    </ul>
+  </nav>
+  <h1>Talk to Lain</h1>
+  <div id="chatbox" style="padding: 10px;"></div>
+  <input type="text" id="input" placeholder="Say something..." />
+  <button onclick="sendMessage()">Send</button>
 </body>
 </html>
